@@ -1,0 +1,17 @@
+#!/bin/bash
+
+fail () {
+    echo '--- { }'
+    exit
+}
+
+hostname=$1
+
+environment=$(hiera environment -y /var/lib/puppet/yaml/facts/"$hostname".yaml --config /etc/puppet/hieradata/hiera.yaml)
+if [[ "$environment" != "nil" && -n $environment ]]
+then
+    echo "---"
+    echo "environment: $environment"
+else
+    fail
+fi
